@@ -1,2 +1,2 @@
-# BattleShip
-BattleShip in Java
+# SnakeAndStairs
+Snake and Stairs in Java

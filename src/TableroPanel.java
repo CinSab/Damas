@@ -20,44 +20,8 @@ public class TableroPanel extends JPanel {
         backgroundImage = ImageIO.read(new File("images/tablero_damas.png"));
         setLayout(null);
         setPreferredSize(new Dimension(640, 640));
-        addMouseListener(new MouseInputListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mouseClick(e.getX(), e.getY());
-            }
-        });
         addMouseListener(new MouseListener() {
-            @Override public void mousePressed(MouseEvent e) { }
+            @Override public void mousePressed(MouseEvent e) {mouseClick(e.getX(), e.getY()); }
             @Override public void mouseClicked(MouseEvent e) {}
             @Override public void mouseReleased(MouseEvent e) {}
             @Override public void mouseEntered(MouseEvent e) {

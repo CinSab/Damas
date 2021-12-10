@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-
+// wey
 public class VentanaDamas  extends JFrame {
 
     public VentanaDamas() throws IOException  {

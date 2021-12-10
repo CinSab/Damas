@@ -13,6 +13,7 @@ public class TableroPanel extends JPanel {
 
     private int tamCasilleroX;
     private int tamCasilleroY;
+
     private List<PiezaLabel> piezaLabels = new ArrayList<>();
 
     TableroPanel() throws IOException {

@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-
+// como
 public class PiezaLabel extends JLabel {
     Pieza pieza;
 

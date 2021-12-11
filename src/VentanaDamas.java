@@ -21,6 +21,4 @@ public class VentanaDamas  extends JFrame {
         pack();
         setResizable(false);
     }
-
-
 }

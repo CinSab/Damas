@@ -10,7 +10,7 @@ public class VentanaDamas  extends JFrame {
         Container cp = getContentPane();
         TableroPanel tablero = new TableroPanel();
         JPanel opciones = new JPanel();
-        GridLayout gl = new GridLayout(2,1,5,5);
+        GridLayout grind = new GridLayout(2,1,5,5);
         JPanel izquierda = new JPanel();
         izquierda.setLayout( new FlowLayout());
         izquierda.add(new JButton("volver atras"));
@@ -22,11 +22,5 @@ public class VentanaDamas  extends JFrame {
         setResizable(false);
     }
 
-    public static void main(String[] args) throws IOException {
-        System.setProperty("sun.java2d.opengl", "true");
-        VentanaDamas ventana = new VentanaDamas();
-        TableroPanel tablero = new TableroPanel();
-        ventana.add(tablero);
-        ventana.setVisible(true);
-    }
+
 }

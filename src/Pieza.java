@@ -14,6 +14,22 @@ public class Pieza {
     boolean turno;
     boolean dama;
 
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
     final String[] EMOJIS_BLANCAS = new String[] {"⚪", "◎"};
     final String[] EMOJIS_NEGRAS = new String[] {"⚫", "◉"};
 

@@ -93,15 +93,50 @@ public class TableroPanel extends JPanel {
     private void mouseClick(int x, int y) { // click en la posicion x,y del panel
         int casX = x / tamCasilleroX; // calculamos a que casillero corresponde
         int casY = y / tamCasilleroY;
-        System.out.println("casillero clickeado: fila=" + casY + ", col=" + casX);
+        System.out.println("casillero clickeado: fila=" + casX + ", col=" + casY);
         piezaLabels.forEach(piezaLabel -> { // buscamos si hay una pieza en ese casillero
             Pieza pieza = piezaLabel.pieza;
-            if (pieza.fila == casY && pieza.col == casX) {
-                int que=Integer.parseInt(JOptionPane.showInputDialog("ingrese derecha o izquierda para mover al peon"));
-
-
+            if (pieza.fila == casX && pieza.col == casY) {
+                System.out.println("Pieza clickeada: " + pieza);
+                // true blanco false negro
+                if (pieza.color == true && pieza.fila > 0){
+                    pieza.fila++;
+                    pieza.col--;
+                }
+                if (pieza.color == false && pieza.fila < 7){
+                    pieza.fila=+1;
+                    pieza.col=+1;
+                }
                 repaint();
             }
         });
     }
+
+//    private void movimiento(int fila,int colum,Pieza pieza){
+//        addMouseListener(new MouseListener() {
+//            @Override public void mousePressed(MouseEvent e) {}
+//            @Override public void mouseClicked(MouseEvent e) {
+//                int casX = e.getX() / tamCasilleroX; // calculamos a que casillero corresponde
+//                int casY = e.getY() / tamCasilleroY;
+//                boolean haypieza=true;
+//                for(int i=0;i<piezaLabels.size();i++){
+//                    if(piezaLabels.get(i).pieza.col==casY && piezaLabels.get(i).pieza.fila==casY){
+//                        haypieza=true;
+//                    }
+//                }
+//                if (haypieza){
+//                    pieza.setFila(fila);
+//                    pieza.setCol(colum);
+//                }
+//                }
+//            @Override public void mouseReleased(MouseEvent e) {}
+//            @Override public void mouseEntered(MouseEvent e) {
+//
+//            }
+//            @Override public void mouseExited(MouseEvent e) {}
+//        });
+//        repaint();
+//
+//
+//    }
 }

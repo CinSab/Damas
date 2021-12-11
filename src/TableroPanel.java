@@ -1,19 +1,16 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-//estas
 public class TableroPanel extends JPanel {
     private final Image backgroundImage;
 
     private int tamCasilleroX;
     private int tamCasilleroY;
-    Pieza[][] piezas = new Pieza[8][8];
 
     private List<PiezaLabel> piezaLabels = new ArrayList<>();
 
@@ -63,7 +60,7 @@ public class TableroPanel extends JPanel {
             PiezaLabel piezaLabel = new PiezaLabel(pieza);
             piezaLabels.add(piezaLabel);
             add(piezaLabel);
-        };
+        }
     }
 
     @Override
@@ -101,29 +98,46 @@ public class TableroPanel extends JPanel {
             if (pieza.fila == casX && pieza.col == casY) {
                 System.out.println("Pieza clickeada: " + pieza);
                 // true blanco false negro
-                if (pieza.color == true ){
+                if (pieza.color){
                     String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
-                    if(movimiento.equals("izquierda")){
-                        pieza.fila--;
-                        pieza.col--;
-                    } else if (movimiento.equals("derecha")){
-                        pieza.fila++;
-                        pieza.col--;
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
+                    try {
+                        if(movimiento.equals("izquierda")){
+                            if(casX ==0 ){
+                                JOptionPane.showMessageDialog(null,"Movimiento imposible");
+                            } else {
+                                pieza.fila--;
+                                pieza.col--;
+                            }
+
+                        } else if (movimiento.equals("derecha")){
+                            if(casX ==7 ){
+                                JOptionPane.showMessageDialog(null,"Movimiento imposible");
+                            } else {
+                                pieza.fila++;
+                                pieza.col--;
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
+                        }
+                    }catch (NullPointerException o){
+
                     }
 
                 }
-                if (pieza.color == false ){
+                if (!pieza.color){
                     String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
-                    if(movimiento.equals("izquierda")){
-                        pieza.fila--;
-                        pieza.col++;
-                    } else if (movimiento.equals("derecha")){
-                        pieza.fila++;
-                        pieza.col++;
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
+                    try {
+                        if(movimiento.equals("izquierda")){
+                            pieza.fila--;
+                            pieza.col++;
+                        } else if (movimiento.equals("derecha")){
+                            pieza.fila++;
+                            pieza.col++;
+                        }else {
+                            JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
+                        }
+                    }catch (NullPointerException o){
+
                     }
                 }
                 repaint();

@@ -109,6 +109,8 @@ public class TableroPanel extends JPanel {
                     } else if (movimiento.equals("derecha")){
                         pieza.fila++;
                         pieza.col--;
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
                     }
 
                 }
@@ -120,6 +122,8 @@ public class TableroPanel extends JPanel {
                     } else if (movimiento.equals("derecha")){
                         pieza.fila++;
                         pieza.col++;
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
                     }
                 }
                 repaint();

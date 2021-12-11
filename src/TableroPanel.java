@@ -13,20 +13,21 @@ public class TableroPanel extends JPanel {
 
     private int tamCasilleroX;
     private int tamCasilleroY;
+    Pieza[][] piezas = new Pieza[8][8];
 
     private List<PiezaLabel> piezaLabels = new ArrayList<>();
+
 
     TableroPanel() throws IOException {
         backgroundImage = ImageIO.read(new File("images/tablero_damas.png"));
         setLayout(null);
         setPreferredSize(new Dimension(640, 640));
+
         addMouseListener(new MouseListener() {
-            @Override public void mousePressed(MouseEvent e) {mouseClick(e.getX(), e.getY()); }
+            @Override public void mousePressed(MouseEvent e) { mouseClick(e.getX(), e.getY()); }
             @Override public void mouseClicked(MouseEvent e) {}
             @Override public void mouseReleased(MouseEvent e) {}
-            @Override public void mouseEntered(MouseEvent e) {
-
-            }
+            @Override public void mouseEntered(MouseEvent e) {}
             @Override public void mouseExited(MouseEvent e) {}
         });
 
@@ -43,6 +44,7 @@ public class TableroPanel extends JPanel {
                 new Pieza(Pieza.Tipo.PEON, false, 2, 3),
                 new Pieza(Pieza.Tipo.PEON, false, 2, 5),
                 new Pieza(Pieza.Tipo.PEON, false, 2, 7),
+
                 new Pieza(Pieza.Tipo.PEON, true, 7, 0),
                 new Pieza(Pieza.Tipo.PEON, true, 7, 2),
                 new Pieza(Pieza.Tipo.PEON, true, 7, 4),
@@ -55,8 +57,8 @@ public class TableroPanel extends JPanel {
                 new Pieza(Pieza.Tipo.PEON, true, 5, 2),
                 new Pieza(Pieza.Tipo.PEON, true, 5, 4),
                 new Pieza(Pieza.Tipo.PEON, true, 5, 6)
-
         };
+
         for (Pieza pieza: piezas) {
             PiezaLabel piezaLabel = new PiezaLabel(pieza);
             piezaLabels.add(piezaLabel);
@@ -99,44 +101,18 @@ public class TableroPanel extends JPanel {
             if (pieza.fila == casX && pieza.col == casY) {
                 System.out.println("Pieza clickeada: " + pieza);
                 // true blanco false negro
-                if (pieza.color == true && pieza.fila > 0){
+                if (pieza.color == true ){
                     pieza.fila++;
-                    pieza.col--;
+                    pieza.col++;
                 }
-                if (pieza.color == false && pieza.fila < 7){
-                    pieza.fila=+1;
-                    pieza.col=+1;
+                if (pieza.color == false ){
+                    pieza.fila++;
+                    pieza.col++;
                 }
                 repaint();
             }
         });
+
     }
 
-//    private void movimiento(int fila,int colum,Pieza pieza){
-//        addMouseListener(new MouseListener() {
-//            @Override public void mousePressed(MouseEvent e) {}
-//            @Override public void mouseClicked(MouseEvent e) {
-//                int casX = e.getX() / tamCasilleroX; // calculamos a que casillero corresponde
-//                int casY = e.getY() / tamCasilleroY;
-//                boolean haypieza=true;
-//                for(int i=0;i<piezaLabels.size();i++){
-//                    if(piezaLabels.get(i).pieza.col==casY && piezaLabels.get(i).pieza.fila==casY){
-//                        haypieza=true;
-//                    }
-//                }
-//                if (haypieza){
-//                    pieza.setFila(fila);
-//                    pieza.setCol(colum);
-//                }
-//                }
-//            @Override public void mouseReleased(MouseEvent e) {}
-//            @Override public void mouseEntered(MouseEvent e) {
-//
-//            }
-//            @Override public void mouseExited(MouseEvent e) {}
-//        });
-//        repaint();
-//
-//
-//    }
 }

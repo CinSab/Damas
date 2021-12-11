@@ -98,52 +98,55 @@ public class TableroPanel extends JPanel {
             if (pieza.fila == casX && pieza.col == casY) {
                 System.out.println("Pieza clickeada: " + pieza);
                 // true blanco false negro
-                if (pieza.color){
-                    String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
-                    try {
-                        if(movimiento.equals("izquierda")){
-                            if(casX ==0 ){
-                                JOptionPane.showMessageDialog(null,"Movimiento imposible");
-                            } else {
-                                pieza.fila--;
-                                pieza.col--;
-                            }
-
-                        } else if (movimiento.equals("derecha")){
-                            if(casX ==7 ){
-                                JOptionPane.showMessageDialog(null,"Movimiento imposible");
-                            } else {
-                                pieza.fila++;
-                                pieza.col--;
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
-                        }
-                    }catch (NullPointerException o){
-
-                    }
-
-                }
-                if (!pieza.color){
-                    String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
-                    try {
-                        if(movimiento.equals("izquierda")){
-                            pieza.fila--;
-                            pieza.col++;
-                        } else if (movimiento.equals("derecha")){
-                            pieza.fila++;
-                            pieza.col++;
-                        }else {
-                            JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
-                        }
-                    }catch (NullPointerException o){
-
-                    }
-                }
+                movimiento(casX,casY,pieza);
                 repaint();
             }
         });
 
+    }
+    public void movimiento(int casX, int casY,Pieza pieza){
+        if (pieza.color){
+            String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
+            try {
+                if(movimiento.equals("izquierda")){
+                    if(casX ==0 ){
+                        JOptionPane.showMessageDialog(null,"Movimiento imposible");
+                    } else {
+                        pieza.fila--;
+                        pieza.col--;
+                    }
+
+                } else if (movimiento.equals("derecha")){
+                    if(casX ==7 ){
+                        JOptionPane.showMessageDialog(null,"Movimiento imposible");
+                    } else {
+                        pieza.fila++;
+                        pieza.col--;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
+                }
+            }catch (NullPointerException o){
+
+            }
+
+        }
+        if (!pieza.color){
+            String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
+            try {
+                if(movimiento.equals("izquierda")){
+                    pieza.fila--;
+                    pieza.col++;
+                } else if (movimiento.equals("derecha")){
+                    pieza.fila++;
+                    pieza.col++;
+                }else {
+                    JOptionPane.showMessageDialog(null,"Solo puede escribir derecha o izquierda");
+                }
+            }catch (NullPointerException o){
+
+            }
+        }
     }
 
 }

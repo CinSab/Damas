@@ -102,7 +102,7 @@ public class TableroPanel extends JPanel {
                 System.out.println("Pieza clickeada: " + pieza);
                 // true blanco false negro
                 if (pieza.color == true ){
-                    String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon");
+                    String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
                     if(movimiento.equals("izquierda")){
                         pieza.fila--;
                         pieza.col--;
@@ -113,7 +113,7 @@ public class TableroPanel extends JPanel {
 
                 }
                 if (pieza.color == false ){
-                    String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon");
+                    String movimiento=JOptionPane.showInputDialog("ingrese hacia donde moveria el peon (izquierda o derecha)");
                     if(movimiento.equals("izquierda")){
                         pieza.fila--;
                         pieza.col++;

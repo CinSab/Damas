@@ -1,19 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.io.*;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Damas extends JPanel implements ActionListener, MouseListener {
-    public static int width = 720, height = width; //square parameters. Optimized for any square resolution TODO any resolution to be squared
+    public static int width = 720, height = width;
     public static final int tileSize = width/8; //8 Casilleros para el tablero de damas
     public static final int numTilesPerRow = width/tileSize;
     public static int[][] baseGameData = new int[numTilesPerRow][numTilesPerRow]; //almacena el diseño del tablero de 8x8
     public static int[][] gameData = new int[numTilesPerRow][numTilesPerRow]; //almacena datos de pieza en el tablero de8x8
     public static final int EMPTY = 0, RED = 1, RED_KING = 2, WHITE = 3, WHITE_KING = 4; //valores para gamedata
-    public static JFrame frame;
     public boolean gameInProgress = true;
     public int currentPlayer = RED;
     public boolean inPlay = false; //Is there a move function processing?

@@ -10,21 +10,21 @@ public class Menu extends JFrame {
     public Menu() throws IOException {
         super("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(400, 400);
         setBackground(Color.BLACK);
 
         Container cp = getContentPane();
         JPanel menu = new JPanel();
-        GridLayout gl = new GridLayout(4, 1, 1, 1);
+        GridLayout gl = new GridLayout(4, 1, 0, 0);
 
         JPanel jugar = new JPanel();
-        jugar.setBackground(Color.darkGray);
+        jugar.setBackground(Color.DARK_GRAY);
         JPanel cargarpartida = new JPanel();
-        cargarpartida.setBackground(Color.darkGray);
+        cargarpartida.setBackground(Color.gray);
         JPanel verreglas = new JPanel();
-        verreglas.setBackground(Color.darkGray);
+        verreglas.setBackground(Color.DARK_GRAY);
         JPanel salir = new JPanel();
-        salir.setBackground(Color.darkGray);
+        salir.setBackground(Color.gray);
 
         jugar.setLayout(new FlowLayout());
         cargarpartida.setLayout(new FlowLayout());

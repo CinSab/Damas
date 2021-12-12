@@ -1,24 +1,39 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-// wey
-public class VentanaDamas  extends JFrame {
 
-    public VentanaDamas() throws IOException  {
+public class VentanaDamas extends JFrame {
+    public static int width = 720;
+    public static int height =720;
+    static BufferedImage crownImage = null;
+    public VentanaDamas(Damas damas){
         super("Damas");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container cp = getContentPane();
-        TableroPanel tablero = new TableroPanel();
-        JPanel opciones = new JPanel();
-        GridLayout grind = new GridLayout(2,1,5,5);
-        JPanel izquierda = new JPanel();
-        izquierda.setLayout( new FlowLayout());
-        izquierda.add(new JButton("volver atras"));
-        opciones.add(izquierda);
-        getContentPane().add(izquierda,BorderLayout.NORTH);
-        opciones.add(tablero);
-        cp.add(opciones);
+        try {
+            crownImage = ImageIO.read(new File("images/crown.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setSize(width, height);
+        setIconImage(crownImage);
+        setBackground(Color.cyan);
+        setLocationRelativeTo(null);
         pack();
-        setResizable(false);
+        Insets insets = getInsets();
+        int frameLeftBorder = insets.left;
+        int frameRightBorder = insets.right;
+        int frameTopBorder = insets.top;
+        int frameBottomBorder = insets.bottom;
+        setPreferredSize(new Dimension(width + frameLeftBorder + frameRightBorder, height + frameBottomBorder + frameTopBorder));
+        setMaximumSize(new Dimension(width + frameLeftBorder + frameRightBorder, height + frameBottomBorder + frameTopBorder));
+        setMinimumSize(new Dimension(width + frameLeftBorder + frameRightBorder, height + frameBottomBorder + frameTopBorder));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addMouseListener(damas);
+        requestFocus();
+        setVisible(true);
+        add(damas);
     }
 }

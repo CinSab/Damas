@@ -3,8 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 
 public class Menu extends JFrame {
@@ -29,19 +27,8 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VentanaDamas ventana = null;
-                try {
-                    ventana = new VentanaDamas();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                TableroPanel tablero = null;
-                try {
-                    tablero = new TableroPanel();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                ventana.add(tablero);
-                ventana.setVisible(true);
+                Damas damas = new Damas();
+                ventana = new VentanaDamas(damas);
             }
 
         });

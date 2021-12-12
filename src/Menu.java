@@ -11,13 +11,21 @@ public class Menu extends JFrame {
         super("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
+        setBackground(Color.BLACK);
+
         Container cp = getContentPane();
         JPanel menu = new JPanel();
-        GridLayout gl = new GridLayout(4, 1, 5, 5);
+        GridLayout gl = new GridLayout(4, 1, 1, 1);
+
         JPanel jugar = new JPanel();
+        jugar.setBackground(Color.darkGray);
         JPanel cargarpartida = new JPanel();
+        cargarpartida.setBackground(Color.darkGray);
         JPanel verreglas = new JPanel();
+        verreglas.setBackground(Color.darkGray);
         JPanel salir = new JPanel();
+        salir.setBackground(Color.darkGray);
+
         jugar.setLayout(new FlowLayout());
         cargarpartida.setLayout(new FlowLayout());
         verreglas.setLayout(new FlowLayout());
@@ -32,20 +40,20 @@ public class Menu extends JFrame {
             }
 
         });
+        JButton cargarpartida1 = new JButton("Cargar Partida");
+        JButton reglas=new JButton("Ver reglas");
+        JButton salida = new JButton("salir");
         jugar.add(jugar2);
-        cargarpartida.add(new JButton("Cargar Partida"));
-        verreglas.add(new JButton("Ver reglas"));
-        salir.add(new JButton("salir"));
-        getContentPane().add(jugar, BorderLayout.CENTER);
-        getContentPane().add(cargarpartida, BorderLayout.CENTER);
-        getContentPane().add(verreglas, BorderLayout.CENTER);
-        getContentPane().add(salir, BorderLayout.CENTER);
+        cargarpartida.add(cargarpartida1);
+        verreglas.add(reglas);
+        salir.add(salida);
 
         menu.setLayout(gl);
         menu.add(jugar);
         menu.add(cargarpartida);
         menu.add(verreglas);
         menu.add(salir);
+        menu.setBackground(Color.BLACK);
         setResizable(false);
         getContentPane().add(menu, BorderLayout.CENTER);
         cp.add(menu);

@@ -208,6 +208,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         }
         reinciarJugada();
         if(siguesuturno){
+            reinciarJugada();
             cambiarTurno();
         }
         siguesuturno=true;

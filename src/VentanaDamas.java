@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class VentanaDamas extends JPanel implements ActionListener, MouseListener {
-    public static int width = 720; 
+    public static int width = 720;
     public static int height= 720;
     public static final int tamanoDelcuadrado = width/8;
     public static final int cantDeCuadradosPorfila = width/ tamanoDelcuadrado;
@@ -100,7 +100,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g.setColor(color);
-        // These 2 and 4 values are arbitrary values that compensate for a smaller piece size than tileSize
         g.fillOval((colum* tamanoDelcuadrado)+2, (fila * tamanoDelcuadrado)+2, tamanoDelcuadrado -4, tamanoDelcuadrado -4);
     }
 
@@ -273,6 +272,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             }
             if(piezas[colum][fila] == DAMAROJA || piezas[colum][fila] == DAMABLANCA){
                 irHaciaArriba(colum, fila);
+
                 irHaciaAbajo(colum, fila);
             }
             repaint();

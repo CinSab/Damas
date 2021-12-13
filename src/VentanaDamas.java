@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,30 +6,37 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class VentanaDamas extends JPanel implements ActionListener, MouseListener {
-    public static int width = 720; // Ancho de la ventana
-    public static int height= 720; //Altura de la ventana
-    public static final int tamanoDelcuadrado = width/8; //8 Casilleros para el tablero de damas
+    public static int width = 720; 
+    public static int height= 720;
+    public static final int tamanoDelcuadrado = width/8;
     public static final int cantDeCuadradosPorfila = width/ tamanoDelcuadrado;
-    public static int[][] tablero = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila]; //almacena el diseño del tablero de 8x8
-    public static int[][] piezas = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila]; //almacena datos de pieza en el tablero de8x8
-    public static final int cuadradoVacio = 0, PEONROJO = 1, DAMAROJA = 2, PEONBLANCO = 3, DAMABLANCA = 4; //valores para gamedata
+    public static int[][] tablero = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
+    public static int[][] piezas = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
+    public static final int cuadradoVacio = 0, PEONROJO = 1, DAMAROJA = 2, PEONBLANCO = 3, DAMABLANCA = 4;
     public boolean juegoenprogreso = true;
     public int jugadorActual = PEONBLANCO;
-    public boolean enpartida = false; //¿Hay un procesamiento de función de movimiento?
-    public static int[][] jugadasDisponibles = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila]; //almacena juegos disponibles en un 8x8
+    public boolean enpartida = false;
+    public static int[][] jugadasDisponibles = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
     public int filaGuardada;
-    public int columGuardada;//fila y columna almacenada
+    public int columGuardada;
     public boolean salto = false;
     static BufferedImage imagenDelacorona = null;
     public VentanaDamas(){
+        try {
+            imagenDelacorona = ImageIO.read(new File("images/crown.png"));
+        } catch (IOException o) {
+            o.printStackTrace();
+        }
         ventana(width, height, this);
         iniciarTablero();
-        repaint(); // This is included in the JVM. Runs paint.
+        repaint();
     }
 
-    public boolean perder(){ //emboltorio para juego perdido(game over)
+    public boolean perder(){
         return ChequeoDeperder(0, 0, 0, 0);
     }
 
@@ -49,7 +57,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         return ChequeoDeperder(col+1, fila, red, white);
     }
 
-    public void ventana(int width, int height, VentanaDamas game){ //draw the frame and add exit functionality
+    public void ventana(int width, int height, VentanaDamas game){
         JFrame frame = new JFrame();
         frame.setSize(width, height);
         frame.setIconImage(imagenDelacorona);
@@ -96,12 +104,11 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         g.fillOval((colum* tamanoDelcuadrado)+2, (fila * tamanoDelcuadrado)+2, tamanoDelcuadrado -4, tamanoDelcuadrado -4);
     }
 
-    public void paint(Graphics g){ // este metodo pinta el tablero
-        //imprime el tablero y las pizas
+    public void paint(Graphics g){
         super.paintComponent(g);
         for(int fila = 0; fila < cantDeCuadradosPorfila; fila++){
             for(int colum = 0; colum < cantDeCuadradosPorfila; colum++){
-                if((fila%2 == 0 && colum%2 == 0) || (fila%2 != 0 && colum%2 != 0)){ // This assigns the checkerboard pattern
+                if((fila%2 == 0 && colum%2 == 0) || (fila%2 != 0 && colum%2 != 0)){
                     tablero[colum][fila] = 0;
                     g.setColor(Color.gray);
                     g.fillRect(colum* tamanoDelcuadrado, fila* tamanoDelcuadrado, tamanoDelcuadrado, tamanoDelcuadrado);
@@ -137,7 +144,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             mensajeAlperder(g);
     }
 
-    public void mensajeAlperder(Graphics g) { //Displays the game over message
+    public void mensajeAlperder(Graphics g) {
         String msg = "perdiste";
         Font small = new Font("Helvetica", Font.BOLD, 20);
         FontMetrics metr = getFontMetrics(small);
@@ -160,12 +167,12 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public void mousePressed(java.awt.event.MouseEvent evt) {
-        int col = (evt.getX()-8) / tamanoDelcuadrado; // 8 is left frame length
-        int row = (evt.getY()-30) / tamanoDelcuadrado; // 30 is top frame length
+        int col = (evt.getX()-8) / tamanoDelcuadrado;
+        int row = (evt.getY()-30) / tamanoDelcuadrado;
         if(enpartida == false && piezas[col][row] != 0 || enpartida == true && chequearPieza(col, row) == true){
             reinciarJugada();
             columGuardada = col;
-            filaGuardada = row; // Sets the current click to instance variables to be used elsewhere
+            filaGuardada = row;
             getJugadasDisponibles(col, row);
         }
         else if(enpartida == true && jugadasDisponibles[col][row] == 1){
@@ -183,9 +190,9 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public void hacerMovimiento(int colum, int fila, int columGuardada, int filaGuaradada){
-        int x = piezas[columGuardada][filaGuaradada]; //change the piece to new tile
+        int x = piezas[columGuardada][filaGuaradada];
         piezas[colum][fila] = x;
-        piezas[columGuardada][filaGuaradada] = cuadradoVacio; //change old piece location to EMPTY
+        piezas[columGuardada][filaGuaradada] = cuadradoVacio;
         verificarDama(colum, fila);
         if(salto == true)
             quitarPieza(colum, fila, columGuardada, filaGuaradada);
@@ -233,8 +240,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         else return;
     }
 
-    public void quitarPieza(int colum, int fila, int columGuardada, int filaGuardada){ //might be a better way to do this,
-        // but detects position of opponent piece based on destination and original position
+    public void quitarPieza(int colum, int fila, int columGuardada, int filaGuardada){
         int piezaFila = -1;
         int piezaColum = -1;
         if(colum > columGuardada && fila > filaGuardada){
@@ -258,26 +264,25 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
 
     public void getJugadasDisponibles(int colum, int fila){
         enpartida = true;
-        if((chequearPieza(colum, fila) == true)){ //checks if the piece is assigned to the current player
-            if(piezas[colum][fila] == PEONROJO){  // solo va hacia el norte, verifica la fila de arriba de la suya
+        if((chequearPieza(colum, fila) == true)){
+            if(piezas[colum][fila] == PEONROJO){
                 irHaciaArriba(colum, fila);
             }
-            if(piezas[colum][fila] == PEONBLANCO){ // only goes south, checks the row below it's own
+            if(piezas[colum][fila] == PEONBLANCO){
                 irHaciaAbajo(colum, fila);
             }
-            if(piezas[colum][fila] == DAMAROJA || piezas[colum][fila] == DAMABLANCA){ // Goes up OR down 1 row below it's own
+            if(piezas[colum][fila] == DAMAROJA || piezas[colum][fila] == DAMABLANCA){
                 irHaciaArriba(colum, fila);
-                //getUp(col, row);
-                irHaciaAbajo(colum, fila); // GET UP GET UP AND GET DOWN
+                irHaciaAbajo(colum, fila);
             }
             repaint();
         }
     }
 
-    public void irHaciaArriba(int colum, int fila){ // Get Up availability
+    public void irHaciaArriba(int colum, int fila){
         int filaDearriba = fila-1;
-        if(colum == 0 && fila != 0){ //X=0, Y is not 0
-            for(int i = colum; i < colum+2; i++){ //check to right
+        if(colum == 0 && fila != 0){
+            for(int i = colum; i < colum+2; i++){
                 if(piezas[colum][fila] != 0 && piezas[i][filaDearriba] != 0){
                     if(puedeSaltar(colum, fila, i, filaDearriba) == true){
                         int saltarColum = getPosiciondeSalto(colum, fila, i, filaDearriba)[0];
@@ -315,41 +320,41 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         }
     }
 
-    public void irHaciaAbajo(int col, int row){
-        int rowDown = row+1;
-        if(col == 0 && row != cantDeCuadradosPorfila-1){
-            if(piezas[col][row] != 0 && piezas[col+1][rowDown] != 0){
-                if(puedeSaltar(col, row, col+1, rowDown) == true){
-                    int jumpCol = getPosiciondeSalto(col, row, col+1, rowDown)[0];
-                    int jumpRow = getPosiciondeSalto(col, row, col+1, rowDown)[1];
-                    jugadasDisponibles[jumpCol][jumpRow] = 1;
+    public void irHaciaAbajo(int colum, int fila){
+        int filadeAbajo = fila+1;
+        if(colum == 0 && fila != cantDeCuadradosPorfila-1){
+            if(piezas[colum][fila] != 0 && piezas[colum+1][filadeAbajo] != 0){
+                if(puedeSaltar(colum, fila, colum+1, filadeAbajo) == true){
+                    int saltarColum = getPosiciondeSalto(colum, fila, colum+1, filadeAbajo)[0];
+                    int saltarFila = getPosiciondeSalto(colum, fila, colum+1, filadeAbajo)[1];
+                    jugadasDisponibles[saltarColum][saltarFila] = 1;
                 }
             }
-            else if(tablero[col+1][rowDown] == 1 && piezas[col+1][rowDown] == 0)
-                jugadasDisponibles[col+1][rowDown] = 1;
+            else if(tablero[colum+1][filadeAbajo] == 1 && piezas[colum+1][filadeAbajo] == 0)
+                jugadasDisponibles[colum+1][filadeAbajo] = 1;
         }
-        else if(col == cantDeCuadradosPorfila - 1 && row != cantDeCuadradosPorfila-1){
-            if(piezas[col][row] != 0 && piezas[col-1][rowDown] != 0){
-                if(puedeSaltar(col, row, col-1, rowDown) == true){
-                    int jumpCol = getPosiciondeSalto(col, row, col-1, rowDown)[0];
-                    int jumpRow = getPosiciondeSalto(col, row, col-1, rowDown)[1];
-                    jugadasDisponibles[jumpCol][jumpRow] = 1;
+        else if(colum == cantDeCuadradosPorfila - 1 && fila != cantDeCuadradosPorfila-1){
+            if(piezas[colum][fila] != 0 && piezas[colum-1][filadeAbajo] != 0){
+                if(puedeSaltar(colum, fila, colum-1, filadeAbajo) == true){
+                    int saltarColum = getPosiciondeSalto(colum, fila, colum-1, filadeAbajo)[0];
+                    int saltarFila = getPosiciondeSalto(colum, fila, colum-1, filadeAbajo)[1];
+                    jugadasDisponibles[saltarColum][saltarFila] = 1;
                 }
             }
-            else if(tablero[col-1][rowDown] == 1 && piezas[col-1][rowDown] == 0)
-                jugadasDisponibles[col-1][rowDown] = 1;
+            else if(tablero[colum-1][filadeAbajo] == 1 && piezas[colum-1][filadeAbajo] == 0)
+                jugadasDisponibles[colum-1][filadeAbajo] = 1;
         }
-        else if(col != cantDeCuadradosPorfila-1 && col != 0 && row != cantDeCuadradosPorfila-1){
-            for(int i = col-1; i <= col+1; i++){
-                if(piezas[col][row] != 0 && piezas[i][rowDown] != 0){
-                    if(puedeSaltar(col, row, i, rowDown) == true){
-                        int jumpCol = getPosiciondeSalto(col, row, i, rowDown)[0];
-                        int jumpRow = getPosiciondeSalto(col, row, i, rowDown)[1];
-                        jugadasDisponibles[jumpCol][jumpRow] = 1;
+        else if(colum != cantDeCuadradosPorfila-1 && colum != 0 && fila != cantDeCuadradosPorfila-1){
+            for(int i = colum-1; i <= colum+1; i++){
+                if(piezas[colum][fila] != 0 && piezas[i][filadeAbajo] != 0){
+                    if(puedeSaltar(colum, fila, i, filadeAbajo) == true){
+                        int saltarColum = getPosiciondeSalto(colum, fila, i, filadeAbajo)[0];
+                        int saltarFila = getPosiciondeSalto(colum, fila, i, filadeAbajo)[1];
+                        jugadasDisponibles[saltarColum][saltarFila] = 1;
                     }
                 }
-                else if(tablero[i][rowDown] == 1 && piezas[i][rowDown] == 0)
-                    jugadasDisponibles[i][rowDown] = 1;
+                else if(tablero[i][filadeAbajo] == 1 && piezas[i][filadeAbajo] == 0)
+                    jugadasDisponibles[i][filadeAbajo] = 1;
             }
         }
     }
@@ -363,24 +368,23 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             return false;
     }
 
-    public boolean isLegalPos(int col, int row){
-        if(row < 0 || row >= cantDeCuadradosPorfila || col < 0 || col >= cantDeCuadradosPorfila)
+    public boolean poscionDisponible(int colum, int fila){
+        if(fila < 0 || fila >= cantDeCuadradosPorfila || colum < 0 || colum >= cantDeCuadradosPorfila)
             return false;
-        else return true;
+        else {
+            return true;
+        }
     }
 
-    public boolean puedeSaltar(int col, int row, int opponentCol, int opponentRow){
-        //Steps for checking if canJump is true: determine piece within movement. Then check if its an opponent piece, then if the space behind it is empty
-        //and in bounds
-        // 4 conditions based on column and row relations to the other piece
-        if(((piezas[col][row] == PEONBLANCO || piezas[col][row] == DAMABLANCA) && (piezas[opponentCol][opponentRow] == PEONROJO || piezas[opponentCol][opponentRow] == DAMAROJA)) || (piezas[col][row] == PEONROJO || piezas[col][row] == DAMAROJA) && (piezas[opponentCol][opponentRow] == PEONBLANCO || piezas[opponentCol][opponentRow] == DAMABLANCA)){
-            //If the piece is white/red and opponent piece is opposite TODO fix this if. It's so ugly
-            if(opponentCol == 0 || opponentCol == cantDeCuadradosPorfila-1 || opponentRow == 0 || opponentRow == cantDeCuadradosPorfila-1)
+    public boolean puedeSaltar(int colum, int fila, int columDelaPiezaEnemiga, int filaDelaPiezaEnemiga){
+        if(((piezas[colum][fila] == PEONBLANCO || piezas[colum][fila] == DAMABLANCA) && (piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == PEONROJO || piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == DAMAROJA)) || (piezas[colum][fila] == PEONROJO || piezas[colum][fila] == DAMAROJA) && (piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == PEONBLANCO || piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == DAMABLANCA)){
+
+            if(columDelaPiezaEnemiga == 0 || columDelaPiezaEnemiga == cantDeCuadradosPorfila-1 || filaDelaPiezaEnemiga == 0 || filaDelaPiezaEnemiga == cantDeCuadradosPorfila-1)
                 return false;
-            int[] toData = getPosiciondeSalto(col, row, opponentCol, opponentRow);
-            if(isLegalPos(toData[0],toData[1]) == false) //check board outofbounds
+            int[] posiciondeSalto = getPosiciondeSalto(colum, fila, columDelaPiezaEnemiga, filaDelaPiezaEnemiga);
+            if(poscionDisponible(posiciondeSalto[0],posiciondeSalto[1]) == false)
                 return false;
-            if(piezas[toData[0]][toData[1]] == 0){
+            if(piezas[posiciondeSalto[0]][posiciondeSalto[1]] == 0){
                 salto = true;
                 return true;
             }
@@ -388,18 +392,17 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         return false;
     }
 
-    public int[] getPosiciondeSalto(int col, int row, int opponentCol, int opponentRow){
-        if(col > opponentCol && row > opponentRow && piezas[col-2][row-2] == 0)
-            return new int[] {col-2, row-2};
-        else if(col > opponentCol && row < opponentRow && piezas[col-2][row+2] == 0)
-            return new int[] {col-2, row+2};
-        else if(col < opponentCol && row > opponentRow && piezas[col+2][row-2] == 0)
-            return new int[] {col+2, row-2};
+    public int[] getPosiciondeSalto(int colum, int fila, int columDelaPiezaEnemiga, int filaDelaPiezaEnemiga){
+        if(colum > columDelaPiezaEnemiga && fila > filaDelaPiezaEnemiga && piezas[colum-2][fila-2] == 0)
+            return new int[] {colum-2, fila-2};
+        else if(colum > columDelaPiezaEnemiga && fila < filaDelaPiezaEnemiga && piezas[colum-2][fila+2] == 0)
+            return new int[] {colum-2, fila+2};
+        else if(colum < columDelaPiezaEnemiga && fila > filaDelaPiezaEnemiga && piezas[colum+2][fila-2] == 0)
+            return new int[] {colum+2, fila-2};
         else
-            return new int[] {col+2, row+2};
+            return new int[] {colum+2, fila+2};
     }
 
-    // Methods that must be included for some reason? WHY
     public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}

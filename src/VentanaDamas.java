@@ -58,12 +58,32 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public void ventana(int width, int height, VentanaDamas game){
-        JFrame frame = new JFrame();
+       JFrame frame = new JFrame();
         frame.setSize(width, height);
         frame.setIconImage(imagenDelacorona);
         frame.setBackground(Color.cyan);
         frame.setLocationRelativeTo(null);
         frame.pack();
+        JMenuBar barra;
+        JMenu menu;
+        JMenuItem guardar, salir;
+        setVisible(true);
+        barra = new JMenuBar();
+        frame.setJMenuBar(barra);
+        menu = new JMenu("Opciones");
+        barra.add(menu);
+        guardar = new JMenuItem("Guardar partida");
+        //guardar.addActionListener(this);
+        // JSOn aqui
+        menu.add(guardar);
+        salir = new JMenuItem("Salir");
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              System.exit(0);
+            }
+        });
+        menu.add(salir);
         Insets insets = frame.getInsets();
         int frameLeftBorder = insets.left;
         int frameRightBorder = insets.right;
@@ -78,6 +98,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         frame.requestFocus();
         frame.setVisible(true);
         frame.add(game);
+
     }
 
     public void iniciarTablero(){

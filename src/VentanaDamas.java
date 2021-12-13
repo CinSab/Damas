@@ -81,7 +81,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public void iniciarTablero(){
-        //UPDATE THE STARTING POSITIONS
+
         for(int col=0; col < (cantDeCuadradosPorfila); col+=2){
             piezas[col][5] = PEONROJO;
             piezas[col][7] = PEONROJO;

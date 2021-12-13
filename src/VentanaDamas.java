@@ -166,18 +166,18 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public void mousePressed(java.awt.event.MouseEvent evt) {
-        int col = (evt.getX()-8) / tamanoDelcuadrado;
-        int row = (evt.getY()-30) / tamanoDelcuadrado;
-        if(enpartida == false && piezas[col][row] != 0 || enpartida == true && chequearPieza(col, row) == true){
+        int colum = (evt.getX()-8) / tamanoDelcuadrado;
+        int fila = (evt.getY()-30) / tamanoDelcuadrado;
+        if(enpartida == false && piezas[colum][fila] != 0 || enpartida == true && chequearPieza(colum, fila) == true){
             reinciarJugada();
-            columGuardada = col;
-            filaGuardada = row;
-            getJugadasDisponibles(col, row);
+            columGuardada = colum;
+            filaGuardada = fila;
+            getJugadasDisponibles(colum, fila);
         }
-        else if(enpartida == true && jugadasDisponibles[col][row] == 1){
-            hacerMovimiento(col, row, columGuardada, filaGuardada);
+        else if(enpartida == true && jugadasDisponibles[colum][fila] == 1){
+            hacerMovimiento(colum, fila, columGuardada, filaGuardada);
         }
-        else if(enpartida == true && jugadasDisponibles[col][row] == 0){
+        else if(enpartida == true && jugadasDisponibles[colum][fila] == 0){
             reinciarJugada();
         }
     }
@@ -231,12 +231,13 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         repaint();
     }
 
-    public void verificarDama(int col, int row){
-        if(piezas[col][row] == PEONROJO && row == 0)
-            piezas[col][row] = DAMAROJA;
-        else if(piezas[col][row] == PEONBLANCO && row == cantDeCuadradosPorfila-1)
-            piezas[col][row] = DAMABLANCA;
+    public void verificarDama(int colum, int fila){
+        if(piezas[colum][fila] == PEONROJO && fila == 0)
+            piezas[colum][fila] = DAMAROJA;
+        else if(piezas[colum][fila] == PEONBLANCO && fila == cantDeCuadradosPorfila-1)
+            piezas[colum][fila] = DAMABLANCA;
         else return;
+        verificarSaltoExtras(colum,fila);
     }
 
     public void quitarPieza(int colum, int fila, int columGuardada, int filaGuardada){
@@ -360,9 +361,9 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public boolean chequearPieza(int col, int row){
-        if(jugadorActual == PEONROJO && (piezas[col][row] == PEONROJO || piezas[col][row] == DAMAROJA)) //bottom
+        if(jugadorActual == PEONROJO && (piezas[col][row] == PEONROJO || piezas[col][row] == DAMAROJA))
             return true;
-        if(jugadorActual == PEONBLANCO && (piezas[col][row] == PEONBLANCO || piezas[col][row] == DAMABLANCA)) //top
+        if(jugadorActual == PEONBLANCO && (piezas[col][row] == PEONBLANCO || piezas[col][row] == DAMABLANCA))
             return true;
         else
             return false;

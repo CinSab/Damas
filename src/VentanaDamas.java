@@ -79,7 +79,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         frame.setVisible(true);
         frame.add(game);
     }
-
     public void iniciarTablero(){
 
         for(int col=0; col < (cantDeCuadradosPorfila); col+=2){

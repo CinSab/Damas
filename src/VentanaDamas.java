@@ -17,7 +17,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     public static int[][] tablero = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
     public static int[][] piezas = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
     public static final int cuadradoVacio = 0, PEONROJO = 1, DAMAROJA = 2, PEONBLANCO = 3, DAMABLANCA = 4;
-    public static boolean siguesuturno=true;
+    public boolean juegoenprogreso = true;
     public int jugadorActual = PEONBLANCO;
     public boolean enpartida = false;
     public static int[][] jugadasDisponibles = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
@@ -64,26 +64,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         frame.setBackground(Color.cyan);
         frame.setLocationRelativeTo(null);
         frame.pack();
-        JMenuBar barra;
-        JMenu menu;
-        JMenuItem guardar, salir;
-        setVisible(true);
-        barra = new JMenuBar();
-        frame.setJMenuBar(barra);
-        menu = new JMenu("Opciones");
-        barra.add(menu);
-        guardar = new JMenuItem("Guardar partida");
-        //guardar.addActionListener(this);
-        // JSOn aqui
-        menu.add(guardar);
-        salir = new JMenuItem("Salir");
-        salir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        menu.add(salir);
         Insets insets = frame.getInsets();
         int frameLeftBorder = insets.left;
         int frameRightBorder = insets.right;
@@ -98,7 +78,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         frame.requestFocus();
         frame.setVisible(true);
         frame.add(game);
-
     }
 
     public void iniciarTablero(){
@@ -214,15 +193,42 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         piezas[colum][fila] = x;
         piezas[columGuardada][filaGuaradada] = cuadradoVacio;
         verificarDama(colum, fila);
-        if(salto == true){
+        if(salto == true)
             quitarPieza(colum, fila, columGuardada, filaGuaradada);
-            siguesuturno=false;
-        }
         reinciarJugada();
-        if(siguesuturno){
-            cambiarTurno();
+        cambiarTurno();
+    }
+
+    public boolean esDama(int colum, int fila){
+        if(piezas[colum][fila] == DAMAROJA || piezas[colum][fila] == DAMABLANCA){
+            return true;
         }
-        siguesuturno=true;
+        else return false;
+    }
+
+    public int verificarPiezaEnemiga(int colum, int fila){
+        if(piezas[colum][fila] == PEONROJO || piezas[colum][fila] == DAMAROJA)
+            return PEONBLANCO;
+        else
+            return PEONROJO;
+    }
+
+    public void verificarSaltoExtras(int colum, int fila){
+        int piezaEnemiga = verificarPiezaEnemiga(colum, fila);
+        int piezaEnemigaDama = verificarPiezaEnemiga(colum, fila) + 1;
+        if(piezas[colum-1][fila-1] == piezaEnemiga || piezas[colum-1][fila-1] == piezaEnemigaDama){
+            jugadasDisponibles[colum-1][fila-1] = 1;
+        }
+        else if(piezas[colum+1][fila-1] == piezaEnemiga || piezas[colum+1][fila-1] == piezaEnemigaDama){
+            jugadasDisponibles[colum+1][fila-1] = 1;
+        }
+        else if(piezas[colum-1][fila+1] == piezaEnemiga || piezas[colum-1][fila+1] == piezaEnemigaDama){
+            jugadasDisponibles[colum-1][fila+1] = 1;
+        }
+        else if(piezas[colum+1][fila+1] == piezaEnemiga || piezas[colum+1][fila+1] == piezaEnemigaDama){
+            jugadasDisponibles[colum+1][fila+1] = 1;
+        }
+        repaint();
     }
 
     public void verificarDama(int colum, int fila){
@@ -231,6 +237,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         else if(piezas[colum][fila] == PEONBLANCO && fila == cantDeCuadradosPorfila-1)
             piezas[colum][fila] = DAMABLANCA;
         else return;
+        verificarSaltoExtras(colum,fila);
     }
 
     public void quitarPieza(int colum, int fila, int columGuardada, int filaGuardada){
@@ -362,7 +369,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             return false;
     }
 
-    public boolean posicionDisponible(int colum, int fila){
+    public boolean poscionDisponible(int colum, int fila){
         if(fila < 0 || fila >= cantDeCuadradosPorfila || colum < 0 || colum >= cantDeCuadradosPorfila)
             return false;
         else {
@@ -373,13 +380,11 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     public boolean puedeSaltar(int colum, int fila, int columDelaPiezaEnemiga, int filaDelaPiezaEnemiga){
         if(((piezas[colum][fila] == PEONBLANCO || piezas[colum][fila] == DAMABLANCA) && (piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == PEONROJO || piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == DAMAROJA)) || (piezas[colum][fila] == PEONROJO || piezas[colum][fila] == DAMAROJA) && (piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == PEONBLANCO || piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == DAMABLANCA)){
 
-            if(columDelaPiezaEnemiga == 0 || columDelaPiezaEnemiga == cantDeCuadradosPorfila-1 || filaDelaPiezaEnemiga == 0 || filaDelaPiezaEnemiga == cantDeCuadradosPorfila-1){
+            if(columDelaPiezaEnemiga == 0 || columDelaPiezaEnemiga == cantDeCuadradosPorfila-1 || filaDelaPiezaEnemiga == 0 || filaDelaPiezaEnemiga == cantDeCuadradosPorfila-1)
                 return false;
-            }
             int[] posiciondeSalto = getPosiciondeSalto(colum, fila, columDelaPiezaEnemiga, filaDelaPiezaEnemiga);
-            if(posicionDisponible(posiciondeSalto[0],posiciondeSalto[1]) == false){
+            if(poscionDisponible(posiciondeSalto[0],posiciondeSalto[1]) == false)
                 return false;
-            }
             if(piezas[posiciondeSalto[0]][posiciondeSalto[1]] == 0){
                 salto = true;
                 return true;

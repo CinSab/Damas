@@ -199,15 +199,15 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         cambiarTurno();
     }
 
-    public boolean esDama(int col, int fila){
-        if(piezas[col][fila] == DAMAROJA || piezas[col][fila] == DAMABLANCA){
+    public boolean esDama(int colum, int fila){
+        if(piezas[colum][fila] == DAMAROJA || piezas[colum][fila] == DAMABLANCA){
             return true;
         }
         else return false;
     }
 
-    public int verificarPiezaEnemiga(int col, int row){
-        if(piezas[col][row] == PEONROJO || piezas[col][row] == DAMAROJA)
+    public int verificarPiezaEnemiga(int colum, int fila){
+        if(piezas[colum][fila] == PEONROJO || piezas[colum][fila] == DAMAROJA)
             return PEONBLANCO;
         else
             return PEONROJO;

@@ -70,7 +70,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         //guardar.addActionListener(this);
         // JSOn aqui
         menu.add(guardar);
-        volverAlMenu = new JMenuItem("Volver Al Menu");
+        volverAlMenu = new JMenuItem("Salir");
         volverAlMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -306,7 +306,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         int filadeAbajo = fila+1;
         if(colum == 0 && fila != cantDeCuadradosPorfila-1){
             if(piezas[colum][fila] != 0 && piezas[colum+1][filadeAbajo] != 0){
-                if(puedeSaltar(colum, fila, colum+1, filadeAbajo) == true){
+                if(puedeSaltar(colum, fila, colum+1, filadeAbajo)){
                     int saltarColum = getPosiciondeSalto(colum, fila, colum+1, filadeAbajo)[0];
                     int saltarFila = getPosiciondeSalto(colum, fila, colum+1, filadeAbajo)[1];
                     jugadasDisponibles[saltarColum][saltarFila] = 1;
@@ -317,7 +317,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         }
         else if(colum == cantDeCuadradosPorfila - 1 && fila != cantDeCuadradosPorfila-1){
             if(piezas[colum][fila] != 0 && piezas[colum-1][filadeAbajo] != 0){
-                if(puedeSaltar(colum, fila, colum-1, filadeAbajo) == true){
+                if(puedeSaltar(colum, fila, colum-1, filadeAbajo)){
                     int saltarColum = getPosiciondeSalto(colum, fila, colum-1, filadeAbajo)[0];
                     int saltarFila = getPosiciondeSalto(colum, fila, colum-1, filadeAbajo)[1];
                     jugadasDisponibles[saltarColum][saltarFila] = 1;

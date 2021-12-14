@@ -13,13 +13,13 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     public static int height= 720;
     public static final int tamanoDelcuadrado = width/8;
     public static final int cantDeCuadradosPorfila = width/ tamanoDelcuadrado;
-    public static int[][] tablero = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
-    public static int[][] piezas = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
+    public static int[][] tablero = new int[8][8];
+    public static int[][] piezas = new int[8][8];
     public static final int cuadradoVacio = 0, PEONROJO = 1, DAMAROJA = 2, PEONBLANCO = 3, DAMABLANCA = 4;
-    public static boolean siguesuturno=true;
-    public int jugadorActual = PEONBLANCO;
+    public static boolean siguesuturno=false;
+    public int jugadorActual = PEONROJO;
     public boolean enpartida = false;
-    public static int[][] jugadasDisponibles = new int[cantDeCuadradosPorfila][cantDeCuadradosPorfila];
+    public static int[][] jugadasDisponibles = new int[8][8];
     public int filaGuardada;
     public int columGuardada;
     public boolean salto = false;
@@ -43,9 +43,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         if(piezas[col][fila] == PEONBLANCO || piezas[col][fila] == DAMABLANCA)
             white += 1;
         if(col == cantDeCuadradosPorfila-1 && fila == cantDeCuadradosPorfila-1){
-            if(red == 0 || white == 0)
-                return true;
-            else return false;
+            return (red == 0 || white == 0);
         }
         if(col == cantDeCuadradosPorfila-1){
             fila += 1;
@@ -62,7 +60,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         frame.pack();
         JMenuBar barra;
         JMenu menu;
-        JMenuItem guardar, salir;
+        JMenuItem guardar, volverAlMenu;
         setVisible(true);
         barra = new JMenuBar();
         frame.setJMenuBar(barra);
@@ -72,14 +70,14 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         //guardar.addActionListener(this);
         // JSOn aqui
         menu.add(guardar);
-        salir = new JMenuItem("Salir");
-        salir.addActionListener(new ActionListener() {
+        volverAlMenu = new JMenuItem("Volver Al Menu");
+        volverAlMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        menu.add(salir);
+        menu.add(volverAlMenu);
         Insets insets = frame.getInsets();
         int frameLeftBorder = insets.left;
         int frameRightBorder = insets.right;
@@ -131,7 +129,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                     g.setColor(Color.darkGray);
                     g.fillRect(colum* tamanoDelcuadrado, fila* tamanoDelcuadrado, tamanoDelcuadrado, tamanoDelcuadrado);
                 }
-                if(chequearPieza(colum, fila) ==  true){
+                if(chequearPieza(colum, fila)){
                     g.setColor(Color.darkGray.darker());
                     g.fillRect(colum* tamanoDelcuadrado, fila* tamanoDelcuadrado, tamanoDelcuadrado, tamanoDelcuadrado);
                 }
@@ -153,7 +151,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                 }
             }
         }
-        if(perder() == true)
+        if(perder())
             mensajeAlperder(g);
     }
     public void mensajeAlperder(Graphics g) {
@@ -179,16 +177,16 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     public void mousePressed(java.awt.event.MouseEvent evt) {
         int colum = (evt.getX()-8) / tamanoDelcuadrado;
         int fila = (evt.getY()-30) / tamanoDelcuadrado;
-        if(enpartida == false && piezas[colum][fila] != 0 || enpartida == true && chequearPieza(colum, fila) == true){
+        if(!enpartida&& piezas[colum][fila] != 0 || enpartida && chequearPieza(colum, fila)){
             reinciarJugada();
             columGuardada = colum;
             filaGuardada = fila;
             getJugadasDisponibles(colum, fila);
         }
-        else if(enpartida == true && jugadasDisponibles[colum][fila] == 1){
+        else if(enpartida && jugadasDisponibles[colum][fila] == 1){
             hacerMovimiento(colum, fila, columGuardada, filaGuardada);
         }
-        else if(enpartida == true && jugadasDisponibles[colum][fila] == 0){
+        else if(enpartida && jugadasDisponibles[colum][fila] == 0){
             reinciarJugada();
         }
     }
@@ -198,11 +196,12 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         else jugadorActual = PEONROJO;
     }
     public void hacerMovimiento(int colum, int fila, int columGuardada, int filaGuaradada){
+        siguesuturno=true;
         int x = piezas[columGuardada][filaGuaradada];
         piezas[colum][fila] = x;
         piezas[columGuardada][filaGuaradada] = cuadradoVacio;
         verificarDama(colum, fila);
-        if(salto == true){
+        if(salto){
             quitarPieza(colum, fila, columGuardada, filaGuaradada);
             siguesuturno=false;
         }
@@ -211,7 +210,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             reinciarJugada();
             cambiarTurno();
         }
-        siguesuturno=true;
+
     }
 
     public void verificarDama(int colum, int fila){
@@ -219,7 +218,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             piezas[colum][fila] = DAMAROJA;
         else if(piezas[colum][fila] == PEONBLANCO && fila == cantDeCuadradosPorfila-1)
             piezas[colum][fila] = DAMABLANCA;
-        else return;
     }
 
     public void quitarPieza(int colum, int fila, int columGuardada, int filaGuardada){
@@ -242,29 +240,34 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             piezaColum = colum+1;
         }
         piezas[piezaColum][piezaFila] = cuadradoVacio;
+        repaint();
     }
     public void getJugadasDisponibles(int colum, int fila){
         enpartida = true;
-        if((chequearPieza(colum, fila) == true)){
+        if((chequearPieza(colum, fila))){
             if(piezas[colum][fila] == PEONROJO){
                 irHaciaArriba(colum, fila);
+                repaint();
             }
             if(piezas[colum][fila] == PEONBLANCO){
                 irHaciaAbajo(colum, fila);
+                repaint();
             }
             if(piezas[colum][fila] == DAMAROJA || piezas[colum][fila] == DAMABLANCA){
                 irHaciaArriba(colum, fila);
                 irHaciaAbajo(colum, fila);
+                repaint();
             }
             repaint();
         }
+        repaint();
     }
     public void irHaciaArriba(int colum, int fila){
         int filaDearriba = fila-1;
         if(colum == 0 && fila != 0){
             for(int i = colum; i < colum+2; i++){
                 if(piezas[colum][fila] != 0 && piezas[i][filaDearriba] != 0){
-                    if(puedeSaltar(colum, fila, i, filaDearriba) == true){
+                    if(puedeSaltar(colum, fila, i, filaDearriba)){
                         int saltarColum = getPosiciondeSalto(colum, fila, i, filaDearriba)[0];
                         int saltarFila = getPosiciondeSalto(colum, fila, i, filaDearriba)[1];
                         jugadasDisponibles[saltarColum][saltarFila] = 1;
@@ -276,7 +279,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         }
         else if(colum == (cantDeCuadradosPorfila - 1) && fila != 0){ //X=max, Y is not 0
             if(piezas[colum][fila] != 0 && piezas[colum-1][filaDearriba] != 0){
-                if(puedeSaltar(colum, fila, colum-1, filaDearriba) == true){
+                if(puedeSaltar(colum, fila, colum-1, filaDearriba)){
                     int saltarColum = getPosiciondeSalto(colum, fila, colum-1, filaDearriba)[0];
                     int saltarFila = getPosiciondeSalto(colum, fila, colum-1, filaDearriba)[1];
                     jugadasDisponibles[saltarColum][saltarFila] = 1;
@@ -288,7 +291,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         else if(colum != cantDeCuadradosPorfila - 1 && colum != 0 && fila != 0){
             for(int i = colum-1; i <= colum+1; i++){
                 if(piezas[colum][fila] != 0 && piezas[i][filaDearriba] != 0){
-                    if(puedeSaltar(colum, fila, i, filaDearriba) == true){
+                    if(puedeSaltar(colum, fila, i, filaDearriba)){
                         int saltarColum = getPosiciondeSalto(colum, fila, i, filaDearriba)[0];
                         int saltarFila = getPosiciondeSalto(colum, fila, i, filaDearriba)[1];
                         jugadasDisponibles[saltarColum][saltarFila] = 1;
@@ -347,11 +350,8 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public boolean posicionDisponible(int colum, int fila){
-        if(fila < 0 || fila >= cantDeCuadradosPorfila || colum < 0 || colum >= cantDeCuadradosPorfila)
-            return false;
-        else {
-            return true;
-        }
+        return !(fila < 0 || fila >= cantDeCuadradosPorfila || colum < 0 || colum >= cantDeCuadradosPorfila);
+
     }
     public boolean puedeSaltar(int colum, int fila, int columDelaPiezaEnemiga, int filaDelaPiezaEnemiga){
         if(((piezas[colum][fila] == PEONBLANCO || piezas[colum][fila] == DAMABLANCA) && (piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == PEONROJO || piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == DAMAROJA)) || (piezas[colum][fila] == PEONROJO || piezas[colum][fila] == DAMAROJA) && (piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == PEONBLANCO || piezas[columDelaPiezaEnemiga][filaDelaPiezaEnemiga] == DAMABLANCA)){
@@ -364,7 +364,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                 return false;
             }
             if(piezas[posiciondeSalto[0]][posiciondeSalto[1]] == 0){
-                salto = true;
+                salto=true;
                 return true;
             }
         }

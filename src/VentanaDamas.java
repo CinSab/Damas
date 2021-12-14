@@ -71,12 +71,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         // JSOn aqui
         menu.add(guardar);
         volverAlMenu = new JMenuItem("Salir");
-        volverAlMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        volverAlMenu.addActionListener(e -> System.exit(0));
         menu.add(volverAlMenu);
         Insets insets = frame.getInsets();
         int frameLeftBorder = insets.left;
@@ -329,7 +324,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         else if(colum != cantDeCuadradosPorfila-1 && colum != 0 && fila != cantDeCuadradosPorfila-1){
             for(int i = colum-1; i <= colum+1; i++){
                 if(piezas[colum][fila] != 0 && piezas[i][filadeAbajo] != 0){
-                    if(puedeSaltar(colum, fila, i, filadeAbajo) == true){
+                    if(puedeSaltar(colum, fila, i, filadeAbajo)){
                         int saltarColum = getPosiciondeSalto(colum, fila, i, filadeAbajo)[0];
                         int saltarFila = getPosiciondeSalto(colum, fila, i, filadeAbajo)[1];
                         jugadasDisponibles[saltarColum][saltarFila] = 1;
@@ -360,7 +355,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                 return false;
             }
             int[] posiciondeSalto = getPosiciondeSalto(colum, fila, columDelaPiezaEnemiga, filaDelaPiezaEnemiga);
-            if(posicionDisponible(posiciondeSalto[0],posiciondeSalto[1]) == false){
+            if(posicionDisponible(posiciondeSalto[0],posiciondeSalto[1])){
                 return false;
             }
             if(piezas[posiciondeSalto[0]][posiciondeSalto[1]] == 0){

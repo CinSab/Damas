@@ -16,7 +16,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     public static int[][] tablero = new int[8][8];
     public static int[][] piezas = new int[8][8];
     public static final int cuadradoVacio = 0, PEONROJO = 1, DAMAROJA = 2, PEONBLANCO = 3, DAMABLANCA = 4;
-    public static boolean siguesuturno=false;
+    public boolean siguesuturno=true;
     public int jugadorActual = PEONROJO;
     public boolean enpartida = false;
     public static int[][] jugadasDisponibles = new int[8][8];
@@ -70,8 +70,13 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         //guardar.addActionListener(this);
         // JSOn aqui
         menu.add(guardar);
-        volverAlMenu = new JMenuItem("Salir");
-        volverAlMenu.addActionListener(e -> System.exit(0));
+        volverAlMenu = new JMenuItem("Volver Al Menu");
+        volverAlMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         menu.add(volverAlMenu);
         Insets insets = frame.getInsets();
         int frameLeftBorder = insets.left;
@@ -103,6 +108,10 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         }
         for(int col=0; col < (cantDeCuadradosPorfila); col+=2)
             piezas[col][1] = PEONBLANCO;
+        for (int col=0; col <(cantDeCuadradosPorfila);col++){
+            piezas[col][3]=cuadradoVacio;
+            piezas[col][4]=cuadradoVacio;
+        }
     }
     public static void crearPieza(int colum, int fila, Graphics g, Color color){
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -143,6 +152,8 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                 else if(piezas[colum][fila] == DAMAROJA){
                     crearPieza(colum, fila, g, Color.red);
                     g.drawImage(imagenDelacorona, (colum* tamanoDelcuadrado)+6, (fila* tamanoDelcuadrado)+6, tamanoDelcuadrado -12, tamanoDelcuadrado -12, null);
+                } else{
+                    piezas[colum][fila]=cuadradoVacio; // modificacion reciente este else no va en realidad
                 }
             }
         }
@@ -164,7 +175,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         salto = false;
         for(int row = 0; row < cantDeCuadradosPorfila; row++){
             for(int col = 0; col < cantDeCuadradosPorfila; col++){
-                jugadasDisponibles[col][row] = 0;
+                jugadasDisponibles[col][row] =0;
             }
         }
         repaint();
@@ -176,7 +187,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             reinciarJugada();
             columGuardada = colum;
             filaGuardada = fila;
-            getJugadasDisponibles(colum, fila);
+            getJugadasDisponibles(columGuardada, filaGuardada);
         }
         else if(enpartida && jugadasDisponibles[colum][fila] == 1){
             hacerMovimiento(colum, fila, columGuardada, filaGuardada);
@@ -191,7 +202,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         else jugadorActual = PEONROJO;
     }
     public void hacerMovimiento(int colum, int fila, int columGuardada, int filaGuaradada){
-        siguesuturno=true;
         int x = piezas[columGuardada][filaGuaradada];
         piezas[colum][fila] = x;
         piezas[columGuardada][filaGuaradada] = cuadradoVacio;
@@ -205,7 +215,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
             reinciarJugada();
             cambiarTurno();
         }
-
+        siguesuturno=true;
     }
 
     public void verificarDama(int colum, int fila){
@@ -272,7 +282,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                     jugadasDisponibles[i][filaDearriba] = 1;
             }
         }
-        else if(colum == (cantDeCuadradosPorfila - 1) && fila != 0){ //X=max, Y is not 0
+        else if(colum == (cantDeCuadradosPorfila - 1) && fila != 0){
             if(piezas[colum][fila] != 0 && piezas[colum-1][filaDearriba] != 0){
                 if(puedeSaltar(colum, fila, colum-1, filaDearriba)){
                     int saltarColum = getPosiciondeSalto(colum, fila, colum-1, filaDearriba)[0];
@@ -355,7 +365,7 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
                 return false;
             }
             int[] posiciondeSalto = getPosiciondeSalto(colum, fila, columDelaPiezaEnemiga, filaDelaPiezaEnemiga);
-            if(posicionDisponible(posiciondeSalto[0],posiciondeSalto[1])){
+            if(!posicionDisponible(posiciondeSalto[0],posiciondeSalto[1])){
                 return false;
             }
             if(piezas[posiciondeSalto[0]][posiciondeSalto[1]] == 0){

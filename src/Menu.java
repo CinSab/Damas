@@ -33,7 +33,7 @@ public class Menu extends JFrame {
         verreglas.setLayout(new FlowLayout());
         salir.setLayout(new FlowLayout());
 
-        jugar2 = new JButton("jugar");
+        jugar2 = new JButton("Jugar");
         cargarpartida1 = new JButton("Cargar Partida");
         JButton reglas = new JButton("Ver reglas");
         reglas.addActionListener(new ActionListener() {
@@ -58,7 +58,7 @@ public class Menu extends JFrame {
                         "Finaliza la partida cuando un jugador abandona, se queda sin fichas o estas no tienen posibilidad de movimiento (bloqueo o ahogada).");
             }
         });
-        JButton salida = new JButton("salir");
+        JButton salida = new JButton("Salir");
         salida.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

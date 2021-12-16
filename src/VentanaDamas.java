@@ -24,14 +24,22 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     public int columGuardada;
     public boolean salto = false;
     static BufferedImage imagenDelacorona = null;
-    public VentanaDamas(){
+    public boolean cargarpartida=false;
+    public VentanaDamas(boolean cargarpartida){
+        this.cargarpartida=cargarpartida;
         try {
             imagenDelacorona = ImageIO.read(new File("images/crown.png"));
         } catch (IOException o) {
             o.printStackTrace();
         }
         ventana(width, height, this);
-        iniciarTablero();
+        if(cargarpartida){
+            GuardarCargar.cargarPartida();
+            piezas=GuardarCargar.matriz;
+            siguesuturno=GuardarCargar.sigueturno;
+        }else {
+            iniciarTablero();
+        }
         repaint();
     }
     public boolean perder(){
@@ -67,8 +75,12 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         menu = new JMenu("Opciones");
         barra.add(menu);
         guardar = new JMenuItem("Guardar partida");
-        //guardar.addActionListener(this);
-        // JSOn aqui
+        guardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GuardarCargar.guardarPartida(piezas, siguesuturno);
+            }
+        });
         menu.add(guardar);
         volverAlMenu = new JMenuItem("Volver Al Menu");
         volverAlMenu.addActionListener(new ActionListener() {
@@ -108,10 +120,6 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
         }
         for(int col=0; col < (cantDeCuadradosPorfila); col+=2)
             piezas[col][1] = PEONBLANCO;
-        for (int col=0; col <(cantDeCuadradosPorfila);col++){
-            piezas[col][3]=cuadradoVacio;
-            piezas[col][4]=cuadradoVacio;
-        }
     }
     public static void crearPieza(int colum, int fila, Graphics g, Color color){
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

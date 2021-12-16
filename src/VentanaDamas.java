@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class VentanaDamas extends JPanel implements ActionListener, MouseListener {
+public class VentanaDamas extends JPanel implements MouseListener {
     public static int width = 720;
     public static int height = 720;
     public static final int tamanoDelcuadrado = width / 8;
@@ -408,8 +408,5 @@ public class VentanaDamas extends JPanel implements ActionListener, MouseListene
     }
 
     public void mouseExited(MouseEvent e) {
-    }
-
-    public void actionPerformed(ActionEvent e) {
     }
 }

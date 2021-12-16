@@ -7,12 +7,11 @@ public class Main {
 
     public static class AbrirventanaDamas implements ActionListener {
         boolean cargarpartida;
+        static boolean apretado = false;
 
         public AbrirventanaDamas(boolean cargarpartida) {
             this.cargarpartida = cargarpartida;
         }
-
-        static boolean apretado = false;
 
         @Override
         public void actionPerformed(ActionEvent e) {

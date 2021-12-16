@@ -19,7 +19,7 @@ public class Main {
             VentanaDamas ventana = new VentanaDamas(cargarpartida);
             apretado = true;
             if (apretado) {
-                Main.jugar();
+                menu.setVisible(false);
             }
         }
     }
@@ -29,9 +29,5 @@ public class Main {
         menu.setVisible(true);
         menu.jugar2.addActionListener(new AbrirventanaDamas(false));
         menu.cargarpartida1.addActionListener(new AbrirventanaDamas(true));
-    }
-
-    public static void jugar() {
-        menu.setVisible(false);
     }
 }

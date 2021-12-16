@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 public class Menu extends JFrame {
     public JButton jugar2;
+    public JButton cargarpartida1;
     public Menu() throws IOException {
         super("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -13,21 +14,26 @@ public class Menu extends JFrame {
         Container cp = getContentPane();
         JPanel menu = new JPanel();
         GridLayout gl = new GridLayout(4, 1, 0, 0);
+
         JPanel jugar = new JPanel();
         jugar.setBackground(Color.PINK);
+
         JPanel cargarpartida = new JPanel();
         cargarpartida.setBackground(Color.PINK);
+
         JPanel verreglas = new JPanel();
         verreglas.setBackground(Color.PINK);
+
         JPanel salir = new JPanel();
         salir.setBackground(Color.PINK);
+
         jugar.setLayout(new FlowLayout());
         cargarpartida.setLayout(new FlowLayout());
         verreglas.setLayout(new FlowLayout());
         salir.setLayout(new FlowLayout());
+
         jugar2 = new JButton("jugar");
-        JButton cargarpartida1 = new JButton("Cargar Partida");
-        //json aca
+        cargarpartida1 = new JButton("Cargar Partida");
         JButton reglas = new JButton("Ver reglas");
         reglas.addActionListener(new ActionListener() {
             @Override

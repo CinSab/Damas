@@ -4,12 +4,16 @@ import java.io.IOException;
 
 public class Main {
     private static Menu menu;
+
     public static class AbrirventanaDamas implements ActionListener {
         boolean cargarpartida;
-        public AbrirventanaDamas(boolean cargarpartida){
-            this.cargarpartida=cargarpartida;
+
+        public AbrirventanaDamas(boolean cargarpartida) {
+            this.cargarpartida = cargarpartida;
         }
+
         static boolean apretado = false;
+
         @Override
         public void actionPerformed(ActionEvent e) {
             VentanaDamas ventana = new VentanaDamas(cargarpartida);
@@ -19,6 +23,7 @@ public class Main {
             }
         }
     }
+
     public static void main(String[] args) throws IOException {
         menu = new Menu();
         menu.setVisible(true);

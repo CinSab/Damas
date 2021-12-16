@@ -2,11 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+
 public class Menu extends JFrame {
     public JButton jugar2;
     public JButton cargarpartida1;
-    public Menu() throws IOException {
+
+    public Menu() {
         super("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
@@ -38,7 +39,7 @@ public class Menu extends JFrame {
         reglas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"  Objetivo del juego\n" +
+                JOptionPane.showMessageDialog(null, "  Objetivo del juego\n" +
                         "El juego de las damas consta de 24 peones divididos en 12 blancos y 12 negros y un tablero de 64 casillas (8×8) coloreadas alternativamente blancas y negras.\n" +
                         "La finalidad del juego es la captura o bloqueo de todas las piezas contrarias, de forma que no les sea posible realizar movimiento.\n" +
                         "              Cómo jugar a las damas\n" +
@@ -77,5 +78,6 @@ public class Menu extends JFrame {
         setResizable(false);
         getContentPane().add(menu, BorderLayout.CENTER);
         cp.add(menu);
+        setLocationRelativeTo(null);
     }
 }

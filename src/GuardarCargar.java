@@ -24,7 +24,7 @@ public class GuardarCargar {
         }
         estadoPartida.put("Tablero", tabler);
 
-        try (FileWriter file = new FileWriter("test.json")) {
+        try (FileWriter file = new FileWriter("partida.json")) {
             file.write(estadoPartida.toString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class GuardarCargar {
     public static void cargarPartida() {
         JSONParser parser = new JSONParser();
         try {
-            Reader reader = new FileReader("test.json");
+            Reader reader = new FileReader("partida.json");
             JSONObject partida = (JSONObject) parser.parse(reader);
 
             boolean siguesuturno = (boolean) partida.get("Turno");

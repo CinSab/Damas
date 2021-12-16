@@ -1,6 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class Main {
     private static Menu menu;
@@ -15,7 +14,7 @@ public class Main {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            VentanaDamas ventana = new VentanaDamas(cargarpartida);
+            new VentanaDamas(cargarpartida);
             apretado = true;
             if (apretado) {
                 menu.setVisible(false);
@@ -23,7 +22,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         menu = new Menu();
         menu.setVisible(true);
         menu.jugar2.addActionListener(new AbrirventanaDamas(false));

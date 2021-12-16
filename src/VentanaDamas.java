@@ -26,6 +26,7 @@ public class VentanaDamas extends JPanel implements MouseListener {
     public boolean salto = false;
     static BufferedImage imagenDelacorona = null;
     public boolean cargarpartida = false;
+    public static JFrame frame;
 
     public VentanaDamas(boolean cargarpartida) {
         this.cargarpartida = cargarpartida;
@@ -63,9 +64,17 @@ public class VentanaDamas extends JPanel implements MouseListener {
         }
         return ChequeoDeperder(col + 1, fila, red, white);
     }
+    public static class AbrirMenu implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            frame.setVisible(false);
+            Main.menu.setVisible(true);
+        }
+    }
 
     public void ventana(int width, int height, VentanaDamas game) {
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setSize(width, height);
         frame.setIconImage(imagenDelacorona);
         frame.setBackground(Color.cyan);
@@ -88,12 +97,7 @@ public class VentanaDamas extends JPanel implements MouseListener {
         });
         menu.add(guardar);
         volverAlMenu = new JMenuItem("Volver Al Menu");
-        volverAlMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        volverAlMenu.addActionListener(new AbrirMenu());
         menu.add(volverAlMenu);
         Insets insets = frame.getInsets();
         int frameLeftBorder = insets.left;

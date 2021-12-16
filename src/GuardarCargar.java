@@ -46,12 +46,11 @@ public class GuardarCargar {
             JSONArray tablero = (JSONArray) partida.get("Tablero");
             Iterator<Object> iterator = tablero.iterator();
             while (iterator.hasNext()) {
-                int contador = 0;
                 for (int i = 0; i < matriz.length; i++) {
                     for (int j = 0; j < matriz[0].length; j++) {
                         long num = (long) iterator.next();
                         matriz[i][j] = (int) num;
-                        contador++;
+
                     }
                 }
             }

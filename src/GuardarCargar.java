@@ -39,7 +39,6 @@ public class GuardarCargar {
         try {
             Reader reader = new FileReader("test.json");
             JSONObject partida = (JSONObject) parser.parse(reader);
-            System.out.println(partida);
 
             boolean siguesuturno = (boolean) partida.get("Turno");
             sigueturno = siguesuturno;
@@ -62,13 +61,6 @@ public class GuardarCargar {
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-
     }
 }
 

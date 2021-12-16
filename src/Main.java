@@ -2,7 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Main {
-    private static Menu menu;
+    public static Menu menu;
 
     public static class AbrirventanaDamas implements ActionListener {
         boolean cargarpartida;

@@ -1,10 +1,10 @@
 # Damas
 **Pasos para ejecutar el Juego**
-* Para comenzar la partida tenes que hacer click en "Jugar".\
+* Para comenzar la partida tenes que hacer click en "Jugar".
 * Para cargar una partida (primero hay que guardar una partida para poder
 jugar una partida guardada, la opcion guardar se muestra cuando haces 
-click en jugar).\
-* Ver reglas ayuda a saber como jugar a las damas.\
+click en jugar).
+* Ver reglas ayuda a saber como jugar a las damas.
 * la opcion sair termina el programa, es decir cierra el juego.
 
 ![This is an image](images/ParaelReadme/menu.jpg)

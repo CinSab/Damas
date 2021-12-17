@@ -180,11 +180,11 @@ public class VentanaDamas extends JPanel implements MouseListener {
 
     public void mensajeAlperder(Graphics g) {
        String msg;
-        if (jugadorActual==PEONROJO||jugadorActual==DAMAROJA) {
-            msg = "Perdiste rojas";
+        if (jugadorActual==PEONROJO) {
+            msg = "Perdieron las Blancas";
 
         } else {
-            msg = "Perdiste blancas";
+            msg = "Perdieron las Rojas";
         }
         Font small = new Font("Helvetica", Font.BOLD, 20);
         FontMetrics metr = getFontMetrics(small);
@@ -236,7 +236,6 @@ public class VentanaDamas extends JPanel implements MouseListener {
         if (salto) {
             quitarPieza(colum, fila, columGuardada, filaGuaradada);
             siguesuturno = false;
-             cambiarTurno();
         }
         reinciarJugada();
         if (siguesuturno) {

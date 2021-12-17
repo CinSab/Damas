@@ -235,6 +235,7 @@ public class VentanaDamas extends JPanel implements MouseListener {
         if (salto) {
             quitarPieza(colum, fila, columGuardada, filaGuaradada);
             siguesuturno = false;
+             cambiarTurno();
         }
         reinciarJugada();
         if (siguesuturno) {

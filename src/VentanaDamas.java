@@ -215,6 +215,7 @@ public class VentanaDamas extends JPanel implements MouseListener {
         }
     }
 
+
     public void cambiarTurno() {
         if (jugadorActual == PEONROJO)
             jugadorActual = PEONBLANCO;

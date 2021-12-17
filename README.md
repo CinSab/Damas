@@ -21,6 +21,11 @@ es el mismo caso
 
 ![this is an image](images/ParaelReadme/ventana2.jpg)
 
+tambien dentro del juego puedes ir a "Opciones" y volver al menu para jugar una nueva partida
+o guardar la partida actual para desde el menu cargar la partida
+
+![this is an image](images/ParaelReadme/cargarguardar.jpg)
+
 **Diagrama de Clases del juego**
 
 ![this is an image](images/ParaelReadme/DiagramadeClases.jpg)

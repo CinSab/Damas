@@ -25,7 +25,7 @@ public class VentanaDamas extends JPanel implements MouseListener {
     public int columGuardada;
     public boolean salto = false;
     static BufferedImage imagenDelacorona = null;
-    public boolean cargarpartida = false;
+    public boolean cargarpartida;
     public static JFrame frame;
 
     public VentanaDamas(boolean cargarpartida) {
@@ -198,9 +198,9 @@ public class VentanaDamas extends JPanel implements MouseListener {
         filaGuardada = 0;
         enpartida = false;
         salto = false;
-        for (int row = 0; row < cantDeCuadradosPorfila; row++) {
+        for (int fila = 0; fila < cantDeCuadradosPorfila; fila++) {
             for (int col = 0; col < cantDeCuadradosPorfila; col++) {
-                jugadasDisponibles[col][row] = 0;
+                jugadasDisponibles[col][fila] = 0;
             }
         }
         repaint();
